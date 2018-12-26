@@ -1,23 +1,17 @@
 package main
 
 import (
+	context "context"
 	fmt "fmt"
-
-	"google.golang.org/grpc"
 )
 
 func main() {
-	con, err := grpc.Dial("127.0.0.1")
+	cd := &DeviceCountConditional{}
+	c := NewWaterService("waterservice", nil)
+	rsp, err := c.GetDeviceCount(context.TODO(), cd)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		cd := &DeviceCountConditional{}
-		c := NewWaterServiceClient(con)
-		rsp, err := c.GetDeviceCount(nil, cd)
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			fmt.Println(rsp.String())
-		}
+		fmt.Println(rsp.String())
 	}
 }
