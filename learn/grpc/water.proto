@@ -1,0 +1,88 @@
+syntax="proto3";
+
+package main;
+
+service WaterService {
+    rpc GetDeviceCount(DeviceCountConditional)returns(DeviceCountResponse);
+    rpc GetDeviceCounts(DeviceCountsConditional)returns(DeviceCountsResponse);
+    rpc GetDeviceValue(DeviceValueConditional)returns(DeviceValueResponse);
+    rpc GetDeviceValues(DeviceValuesConditional)returns(DeviceValuesResponse);
+    rpc GetDeviceDetail(DeviceDetailConditional)returns(DeviceDetailResponse);
+    rpc GetDeviceDetails(DeviceDetailsConditional)returns(DeviceDetailsResponse);
+}
+
+message Empty{}
+
+message DeviceInfo{
+    string Name=1;
+    int32 Value=2;
+}
+
+enum OperateResult{
+    OK=0;
+    Fault=1;
+ }
+
+message DeviceCountConditional{
+    string  DeviceType=1;
+    string  Building=2;
+    string  Floor=3;
+}  
+message DeviceCountResponse{
+    OperateResult Result=1;
+    string Msg=2;
+    string  DeviceType=3;
+    string  Building=4;
+    string  Floor=5;
+    repeated DeviceInfo Data=6;
+}
+
+message DeviceCountsConditional{
+    repeated DeviceCountConditional Conditionals=1;
+}
+message DeviceCountsResponse {
+    repeated DeviceCountResponse Datas=1;
+}
+
+message DeviceValueConditional{
+  string  Building=1;
+  string  Floor=2;
+}
+message DeviceValueResponse {
+    OperateResult Result=1;
+    string Msg=2;
+    string  Building=3;
+    string  Floor=4;
+    repeated DeviceInfo Data=5;
+}
+
+message DeviceValuesConditional{
+    repeated DeviceValueConditional Conditionals=1;
+}
+message DeviceValuesResponse {
+    repeated DeviceValueResponse Datas=1;
+}
+
+message DeviceDetail{
+    int32 Max=1;
+    int32 Min=2;
+    string Unit=3;
+    int32 Value=4;
+    string DeviceType=5;
+}
+message DeviceDetailConditional{
+    string  DeviceEUI=1;
+}
+message DeviceDetailResponse {
+    OperateResult Result=1;
+    string Msg=2;
+    string  DeviceEUI=3;
+    repeated DeviceDetail Data=4;
+}
+
+message DeviceDetailsConditional{
+    repeated DeviceDetailConditional Conditionals=1;
+}
+message DeviceDetailsResponse {
+    repeated DeviceDetailResponse Datas=1;
+}

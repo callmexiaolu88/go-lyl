@@ -1,7 +1,7 @@
 package main
 
 import (
-	"lyl/learn/restful/router"
+	"go-lyl/learn/restful/router"
 
 	web "github.com/micro/go-web"
 	restfulspec "github.com/use-go/go-restful-openapi"
@@ -11,11 +11,9 @@ import (
 
 func main() {
 	srv := web.NewService(web.Name("restful.service"),
-		web.Address(":8345"))
+		web.Address("127.0.0.1:6300"))
 	wc := restful.NewContainer()
-	wc2 := restful.NewContainer()
 	router.RegistryAPIHandler(wc)
-	router.RegistryAPIHandler(wc2)
 
 	config := restfulspec.Config{
 		WebServices:    wc2.RegisteredWebServices(),
@@ -23,10 +21,8 @@ func main() {
 		APIPath:        "/apidocs.json",
 	}
 	wc.Add(restfulspec.NewOpenAPIService(config))
-	wc2.Add(restfulspec.NewOpenAPIService(config))
 
 	srv.Handle("/", wc)
-	srv.Handle("/test", wc2)
 	srv.Init()
 	srv.Run()
 }
