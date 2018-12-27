@@ -3,7 +3,6 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"go-lyl/learn/restful/model"
 	"net/http"
 
 	"honeywell.com/foxconn/fire-platform-water-srv/handler"
@@ -12,13 +11,7 @@ import (
 	restful "github.com/emicklei/go-restful"
 )
 
-type UserResource struct {
-	Users map[string]model.User
-}
-
-var users UserResource = UserResource{map[string]model.User{}}
-
-func GetCount(req *restful.Request, rsp *restful.Response) {
+func GetWaterCount(req *restful.Request, rsp *restful.Response) {
 	fmt.Println(req.SelectedRoutePath())
 	obj := &[]handler.DeviceInfoData{
 		handler.DeviceInfoData{
@@ -55,7 +48,7 @@ func GetCount(req *restful.Request, rsp *restful.Response) {
 	rsp.Write(body)
 }
 
-func GetValue(req *restful.Request, rsp *restful.Response) {
+func GetWaterValue(req *restful.Request, rsp *restful.Response) {
 	fmt.Println(req.SelectedRoutePath())
 	obj := &[]handler.DeviceInfoData{
 		handler.DeviceInfoData{
@@ -91,7 +84,7 @@ func GetValue(req *restful.Request, rsp *restful.Response) {
 	rsp.Write(body)
 }
 
-func GetDetail(req *restful.Request, rsp *restful.Response) {
+func GetWaterDetail(req *restful.Request, rsp *restful.Response) {
 	fmt.Println(req.SelectedRoutePath())
 	obj := &[]handler.DeviceDetailData{
 		handler.DeviceDetailData{
@@ -127,4 +120,12 @@ func GetDetail(req *restful.Request, rsp *restful.Response) {
 		}
 	}
 	rsp.Write(body)
+}
+
+func GetFireCount(req *restful.Request, rsp *restful.Response) {
+
+}
+
+func GetBFCount(req *restful.Request, rsp *restful.Response) {
+
 }
