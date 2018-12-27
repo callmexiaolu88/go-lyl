@@ -14,21 +14,23 @@ import (
 
 func main() {
 
-	obj := &handler.DeviceInfoData{
-		Code: 200,
-		Msg:  "",
-		Data: []*water.DeviceInfo{
-			&water.DeviceInfo{
-				Name:  "wuxian",
-				Value: 100,
-			},
-			&water.DeviceInfo{
-				Name:  "yeya",
-				Value: 255,
-			},
-			&water.DeviceInfo{
-				Name:  "ast",
-				Value: 320,
+	obj := &[]handler.DeviceInfoData{
+		handler.DeviceInfoData{
+			Code: 200,
+			Msg:  "",
+			Data: []*water.DeviceInfo{
+				&water.DeviceInfo{
+					Name:  "wuxian",
+					Value: 100,
+				},
+				&water.DeviceInfo{
+					Name:  "yeya",
+					Value: 255,
+				},
+				&water.DeviceInfo{
+					Name:  "ast",
+					Value: 320,
+				},
 			},
 		},
 	}

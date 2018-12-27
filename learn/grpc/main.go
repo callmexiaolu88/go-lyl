@@ -6,12 +6,28 @@ import (
 )
 
 func main() {
-	cd := &DeviceCountConditional{}
+	c1 := &DeviceCountConditional{}
 	c := NewWaterService("waterservice", nil)
-	rsp, err := c.GetDeviceCount(context.TODO(), cd)
+	r1, err := c.GetDeviceCount(context.TODO(), c1)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(rsp.String())
+		fmt.Println(r1.String())
+	}
+
+	c2 := &DeviceValueConditional{}
+	r2, err := c.GetDeviceValue(context.TODO(), c2)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(r2.String())
+	}
+
+	c3 := &DeviceDetailConditional{}
+	r3, err := c.GetDeviceDetail(context.TODO(), c3)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(r3.String())
 	}
 }
