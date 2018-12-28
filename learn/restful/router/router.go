@@ -8,11 +8,12 @@ import (
 
 func RegistryAPIHandler(wc *restful.Container) {
 	ws := new(restful.WebService)
-	ws.Path("/")
-	ws.Route(ws.POST("/api/waterDevice/count").To(handler.GetWaterCount))
+	ws.Path("/fireiot")
+	ws.Route(ws.POST("/api/waterDevice/count").To(handler.GetCount))
 	ws.Route(ws.POST("/api/waterDevice/location/value").To(handler.GetWaterValue))
-	ws.Route(ws.POST("/api/waterDevice/info").To(handler.GetWaterDetail))
-	ws.Route(ws.POST("/api/fireDevice/count").To(handler.GetFireCount))
-	ws.Route(ws.POST("/api/fireDevice/location/count").To(handler.GetFireCount))
+	ws.Route(ws.POST("/api/waterDevice/info").To(handler.GetDetail))
+	ws.Route(ws.POST("/api/fireDevice/count").To(handler.GetCount))
+	ws.Route(ws.POST("/api/fireDevice/location/value").To(handler.GetFireValue))
+	ws.Route(ws.POST("/api/fireDevice/info").To(handler.GetDetail))
 	wc.Add(ws)
 }

@@ -10,48 +10,57 @@ import (
 func StartFireCalling() {
 	f := fire.NewFireService("fire-side", nil)
 
-	fmt.Println("fire.GetParkDeviceCount")
-	fc1 := &fire.Empty{}
-	fr1, err := f.GetParkDeviceCount(context.TODO(), fc1)
+	fmt.Println("fire.GetDeviceCount")
+	fc1 := &fire.DeviceCountConditional{}
+	fr1, err := f.GetDeviceCount(context.TODO(), fc1)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(fr1.String())
 	}
 
-	fmt.Println("fire.GetBuildDeviceCount")
-	fc2 := &fire.BuildingCondition{}
-	fr2, err := f.GetBuildDeviceCount(context.TODO(), fc2)
+	fmt.Println("fire.GetDeviceCounts")
+	fc2 := &fire.DeviceCountsConditional{Conditionals: []*fire.DeviceCountConditional{fc1}}
+	fr2, err := f.GetDeviceCounts(context.TODO(), fc2)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(fr2.String())
 	}
 
-	fmt.Println("fire.GetBuildDeviceCounts")
-	fc3 := &fire.BuildingConditions{Conditionals: []*fire.BuildingCondition{fc2}}
-	fr3, err := f.GetBuildsDeviceCount(context.TODO(), fc3)
+	fmt.Println("fire.GetDeviceValue")
+	fc3 := &fire.DeviceValueConditional{}
+	fr3, err := f.GetDeviceValue(context.TODO(), fc3)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(fr3.String())
 	}
 
-	fmt.Println("fire.GetFloorDeviceCount")
-	fc4 := &fire.FloorCondition{}
-	fr4, err := f.GetFloorDeviceCount(context.TODO(), fc4)
+	fmt.Println("fire.GetDeviceValues")
+	fc4 := &fire.DeviceValuesConditional{Conditionals: []*fire.DeviceValueConditional{fc3}}
+	fr4, err := f.GetDeviceValues(context.TODO(), fc4)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(fr4.String())
 	}
 
-	fmt.Println("fire.GetFloorDeviceCounts")
-	fc5 := &fire.FloorsConditions{Conditionals: []*fire.FloorCondition{fc4}}
-	fr5, err := f.GetFloorsDeviceCount(context.TODO(), fc5)
+	fmt.Println("fire.GetDeviceDetail")
+	fc5 := &fire.DeviceDetailConditional{}
+	fr5, err := f.GetDeviceDetail(context.TODO(), fc5)
 	if err != nil {
 		fmt.Println(err)
 	} else {
 		fmt.Println(fr5.String())
+	}
+
+	fmt.Println("fire.GetDeviceDetails")
+	fc6 := &fire.DeviceDetailsConditional{Conditionals: []*fire.DeviceDetailConditional{fc5}}
+	fr6, err := f.GetDeviceDetails(context.TODO(), fc6)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(fr6.String())
 	}
 }

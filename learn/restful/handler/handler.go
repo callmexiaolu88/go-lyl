@@ -3,40 +3,48 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"go-lyl/learn/restful/model"
+	"io/ioutil"
 
 	"honeywell.com/foxconn/fire-platform-common-pkg/protocol/util"
-
-	firehandler "honeywell.com/foxconn/fire-platform-fire-srv/handler"
-	fire "honeywell.com/foxconn/fire-platform-fire-srv/proto"
-	waterhandler "honeywell.com/foxconn/fire-platform-water-srv/handler"
-	water "honeywell.com/foxconn/fire-platform-water-srv/proto"
 
 	restful "github.com/emicklei/go-restful"
 )
 
-func GetWaterCount(req *restful.Request, rsp *restful.Response) {
+func GetCount(req *restful.Request, rsp *restful.Response) {
 	fmt.Println(req.SelectedRoutePath())
-	obj := &[]waterhandler.DeviceInfoData{
-		waterhandler.DeviceInfoData{
-			Code: 200,
-			Msg:  "",
-			Data: []*water.DeviceInfo{
-				&water.DeviceInfo{
-					Name:  "wuxian",
-					Value: 100,
-				},
-				&water.DeviceInfo{
-					Name:  "yeya",
-					Value: 255,
-				},
-				&water.DeviceInfo{
-					Name:  "ast",
-					Value: 320,
-				},
-			},
-		},
+	bytes, err := ioutil.ReadAll(req.Request.Body)
+	if err != nil {
+		return
 	}
-	body, err := json.Marshal(obj)
+	result := model.DeviceCountResponseInfo{
+		Code: 200,
+		Msg:  "Query success",
+	}
+	conds := &[]model.DeviceCountCondition{}
+	err = json.Unmarshal(bytes, conds)
+	if err != nil {
+		return
+	}
+	result.Data = make([]model.DeviceCountConditionAndResult, len(*conds))
+	for k, c := range *conds {
+		result.Data[k].Search = c
+		result.Data[k].Values = []model.DeviceCountResult{
+			model.DeviceCountResult{
+				Name:  util.RandString(6),
+				Value: util.RandCount(1000),
+			},
+			model.DeviceCountResult{
+				Name:  util.RandString(6),
+				Value: util.RandCount(1000),
+			},
+			model.DeviceCountResult{
+				Name:  util.RandString(6),
+				Value: util.RandCount(1000),
+			},
+		}
+	}
+	body, err := json.Marshal(result)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -46,27 +54,47 @@ func GetWaterCount(req *restful.Request, rsp *restful.Response) {
 
 func GetWaterValue(req *restful.Request, rsp *restful.Response) {
 	fmt.Println(req.SelectedRoutePath())
-	obj := &[]waterhandler.DeviceInfoData{
-		waterhandler.DeviceInfoData{
-			Code: 200,
-			Msg:  "",
-			Data: []*water.DeviceInfo{
-				&water.DeviceInfo{
-					Name:  "shuiya",
-					Value: 1200,
-				},
-				&water.DeviceInfo{
-					Name:  "shuiwei",
-					Value: 1500,
-				},
-				&water.DeviceInfo{
-					Name:  "dianyuan",
-					Value: 220,
-				},
-			},
-		},
+	bytes, err := ioutil.ReadAll(req.Request.Body)
+	if err != nil {
+		return
 	}
-	body, err := json.Marshal(obj)
+	result := model.DeviceWaterValueResponseInfo{
+		Code: 200,
+		Msg:  "Query success",
+	}
+	conds := &[]model.DeviceValueCondition{}
+	err = json.Unmarshal(bytes, conds)
+	if err != nil {
+		return
+	}
+	result.Data = make([]model.DeviceWaterValueConditionAndResult, len(*conds))
+	for k, c := range *conds {
+		result.Data[k].Search = c
+		result.Data[k].Values = []model.DeviceWaterValueResult{
+			model.DeviceWaterValueResult{
+				DeviceID:    util.RandString(6),
+				DeviceLabel: util.RandString(6),
+				Value:       int32(util.RandCount(100)),
+				DeviceType:  util.RandString(6),
+				MapLocation: getmp(),
+			},
+			model.DeviceWaterValueResult{
+				DeviceID:    util.RandString(6),
+				DeviceLabel: util.RandString(6),
+				Value:       int32(util.RandCount(100)),
+				DeviceType:  util.RandString(6),
+				MapLocation: getmp(),
+			},
+			model.DeviceWaterValueResult{
+				DeviceID:    util.RandString(6),
+				DeviceLabel: util.RandString(6),
+				Value:       int32(util.RandCount(100)),
+				DeviceType:  util.RandString(6),
+				MapLocation: getmp(),
+			},
+		}
+	}
+	body, err := json.Marshal(result)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -74,31 +102,49 @@ func GetWaterValue(req *restful.Request, rsp *restful.Response) {
 	rsp.Write(body)
 }
 
-func GetWaterDetail(req *restful.Request, rsp *restful.Response) {
+func GetFireValue(req *restful.Request, rsp *restful.Response) {
 	fmt.Println(req.SelectedRoutePath())
-	obj := &[]waterhandler.DeviceDetailData{
-		waterhandler.DeviceDetailData{
-			Code: 200,
-			Msg:  "",
-			Data: []*water.DeviceDetail{
-				&water.DeviceDetail{
-					Max:        20,
-					Min:        15,
-					Unit:       "cm",
-					Value:      17,
-					DeviceType: "shuiwei",
-				},
-				&water.DeviceDetail{
-					Max:        35,
-					Min:        2,
-					Unit:       "pp",
-					Value:      25,
-					DeviceType: "yali",
-				},
-			},
-		},
+	bytes, err := ioutil.ReadAll(req.Request.Body)
+	if err != nil {
+		return
 	}
-	body, err := json.Marshal(obj)
+	result := model.DeviceFireValueResponseInfo{
+		Code: 200,
+		Msg:  "Query success",
+	}
+	conds := &[]model.DeviceValueCondition{}
+	err = json.Unmarshal(bytes, conds)
+	if err != nil {
+		return
+	}
+	result.Data = make([]model.DeviceFireValueConditionAndResult, len(*conds))
+	for k, c := range *conds {
+		result.Data[k].Search = c
+		result.Data[k].Values = []model.DeviceFireValueResult{
+			model.DeviceFireValueResult{
+				DeviceID:     util.RandString(6),
+				DeviceLabel:  util.RandString(6),
+				DeviceType:   util.RandString(6),
+				MapLocation:  getmp(),
+				DeviceStatus: []string{util.RandString(6), util.RandString(6), util.RandString(6)},
+			},
+			model.DeviceFireValueResult{
+				DeviceID:     util.RandString(6),
+				DeviceLabel:  util.RandString(6),
+				DeviceType:   util.RandString(6),
+				MapLocation:  getmp(),
+				DeviceStatus: []string{util.RandString(6), util.RandString(6), util.RandString(6)},
+			},
+			model.DeviceFireValueResult{
+				DeviceID:     util.RandString(6),
+				DeviceLabel:  util.RandString(6),
+				DeviceType:   util.RandString(6),
+				MapLocation:  getmp(),
+				DeviceStatus: []string{util.RandString(6), util.RandString(6), util.RandString(6)},
+			},
+		}
+	}
+	body, err := json.Marshal(result)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -106,28 +152,53 @@ func GetWaterDetail(req *restful.Request, rsp *restful.Response) {
 	rsp.Write(body)
 }
 
-func GetFireCount(req *restful.Request, rsp *restful.Response) {
+func GetDetail(req *restful.Request, rsp *restful.Response) {
 	fmt.Println(req.SelectedRoutePath())
-	obj := &[]firehandler.BuildingFloorData{
-		firehandler.BuildingFloorData{
-			Code: 200,
-			Msg:  "",
-			Data: []*fire.DataInfo{
-				&fire.DataInfo{
-					Name:  util.RandString(6),
-					Value: 23,
-				},
-				&fire.DataInfo{
-					Name:  util.RandString(6),
-					Value: 54,
-				},
-			},
-		},
+	bytes, err := ioutil.ReadAll(req.Request.Body)
+	if err != nil {
+		return
 	}
-	body, err := json.Marshal(obj)
+	result := model.DeviceDetailResponseInfo{
+		Code: 200,
+		Msg:  "Query success",
+	}
+	conds := &[]model.DeviceDetailCondition{}
+	err = json.Unmarshal(bytes, conds)
+	if err != nil {
+		return
+	}
+	result.Data = make([]model.DeviceDetailConditionAndResult, len(*conds))
+	for k, c := range *conds {
+		result.Data[k].Search = c
+		result.Data[k].Values = []model.DeviceDetailResult{
+			model.DeviceDetailResult{
+				Max:        int32(util.RandCount(100)),
+				Min:        int32(util.RandCount(6)),
+				Value:      int32(util.RandCount(100)),
+				DeviceType: util.RandString(6),
+				Unit:       util.RandString(3),
+			},
+			model.DeviceDetailResult{
+				Max:        int32(util.RandCount(100)),
+				Min:        int32(util.RandCount(6)),
+				Value:      int32(util.RandCount(100)),
+				DeviceType: util.RandString(6),
+				Unit:       util.RandString(3),
+			},
+		}
+	}
+	body, err := json.Marshal(result)
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(string(body))
 	rsp.Write(body)
+}
+
+func getmp() *model.LocationInfo {
+	m := &model.LocationInfo{}
+	m.F1 = []float32{float32(util.RandCount(1000)), float32(util.RandCount(1000)), float32(util.RandCount(1000))}
+	m.S1 = []float32{float32(util.RandCount(1000)), float32(util.RandCount(1000)), float32(util.RandCount(1000))}
+	m.V1 = []float32{float32(util.RandCount(1000)), float32(util.RandCount(1000)), float32(util.RandCount(1000))}
+	return m
 }
