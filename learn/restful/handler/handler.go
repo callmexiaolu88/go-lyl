@@ -3,9 +3,12 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
 
-	"honeywell.com/foxconn/fire-platform-water-srv/handler"
+	"honeywell.com/foxconn/fire-platform-common-pkg/protocol/util"
+
+	firehandler "honeywell.com/foxconn/fire-platform-fire-srv/handler"
+	fire "honeywell.com/foxconn/fire-platform-fire-srv/proto"
+	waterhandler "honeywell.com/foxconn/fire-platform-water-srv/handler"
 	water "honeywell.com/foxconn/fire-platform-water-srv/proto"
 
 	restful "github.com/emicklei/go-restful"
@@ -13,8 +16,8 @@ import (
 
 func GetWaterCount(req *restful.Request, rsp *restful.Response) {
 	fmt.Println(req.SelectedRoutePath())
-	obj := &[]handler.DeviceInfoData{
-		handler.DeviceInfoData{
+	obj := &[]waterhandler.DeviceInfoData{
+		waterhandler.DeviceInfoData{
 			Code: 200,
 			Msg:  "",
 			Data: []*water.DeviceInfo{
@@ -35,14 +38,7 @@ func GetWaterCount(req *restful.Request, rsp *restful.Response) {
 	}
 	body, err := json.Marshal(obj)
 	if err != nil {
-		body, err = json.Marshal(&handler.DeviceInfoData{
-			Code: 500,
-			Msg:  "marshal error",
-		})
-		if err != nil {
-			rsp.WriteHeader(http.StatusInternalServerError)
-			return
-		}
+		fmt.Println(err)
 	}
 	fmt.Println(string(body))
 	rsp.Write(body)
@@ -50,8 +46,8 @@ func GetWaterCount(req *restful.Request, rsp *restful.Response) {
 
 func GetWaterValue(req *restful.Request, rsp *restful.Response) {
 	fmt.Println(req.SelectedRoutePath())
-	obj := &[]handler.DeviceInfoData{
-		handler.DeviceInfoData{
+	obj := &[]waterhandler.DeviceInfoData{
+		waterhandler.DeviceInfoData{
 			Code: 200,
 			Msg:  "",
 			Data: []*water.DeviceInfo{
@@ -72,22 +68,16 @@ func GetWaterValue(req *restful.Request, rsp *restful.Response) {
 	}
 	body, err := json.Marshal(obj)
 	if err != nil {
-		body, err = json.Marshal(&handler.DeviceInfoData{
-			Code: 500,
-			Msg:  "marshal error",
-		})
-		if err != nil {
-			rsp.WriteHeader(http.StatusInternalServerError)
-			return
-		}
+		fmt.Println(err)
 	}
+	fmt.Println(string(body))
 	rsp.Write(body)
 }
 
 func GetWaterDetail(req *restful.Request, rsp *restful.Response) {
 	fmt.Println(req.SelectedRoutePath())
-	obj := &[]handler.DeviceDetailData{
-		handler.DeviceDetailData{
+	obj := &[]waterhandler.DeviceDetailData{
+		waterhandler.DeviceDetailData{
 			Code: 200,
 			Msg:  "",
 			Data: []*water.DeviceDetail{
@@ -110,22 +100,34 @@ func GetWaterDetail(req *restful.Request, rsp *restful.Response) {
 	}
 	body, err := json.Marshal(obj)
 	if err != nil {
-		body, err = json.Marshal(&handler.DeviceInfoData{
-			Code: 500,
-			Msg:  "marshal error",
-		})
-		if err != nil {
-			rsp.WriteHeader(http.StatusInternalServerError)
-			return
-		}
+		fmt.Println(err)
 	}
+	fmt.Println(string(body))
 	rsp.Write(body)
 }
 
 func GetFireCount(req *restful.Request, rsp *restful.Response) {
-
-}
-
-func GetBFCount(req *restful.Request, rsp *restful.Response) {
-
+	fmt.Println(req.SelectedRoutePath())
+	obj := &[]firehandler.BuildingFloorData{
+		firehandler.BuildingFloorData{
+			Code: 200,
+			Msg:  "",
+			Data: []*fire.DataInfo{
+				&fire.DataInfo{
+					Name:  util.RandString(6),
+					Value: 23,
+				},
+				&fire.DataInfo{
+					Name:  util.RandString(6),
+					Value: 54,
+				},
+			},
+		},
+	}
+	body, err := json.Marshal(obj)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(string(body))
+	rsp.Write(body)
 }

@@ -13,6 +13,6 @@ func RegistryAPIHandler(wc *restful.Container) {
 	ws.Route(ws.POST("/api/waterDevice/location/value").To(handler.GetWaterValue))
 	ws.Route(ws.POST("/api/waterDevice/info").To(handler.GetWaterDetail))
 	ws.Route(ws.POST("/api/fireDevice/count").To(handler.GetFireCount))
-	ws.Route(ws.POST("/api/fireDevice/location/count").To(handler.GetBFCount))
+	ws.Route(ws.POST("/api/fireDevice/location/count").To(handler.GetFireCount))
 	wc.Add(ws)
 }
