@@ -2,6 +2,7 @@ package main
 
 import (
 	context "context"
+	"encoding/json"
 	fmt "fmt"
 
 	water "honeywell.com/foxconn/fire-platform-water-srv/proto"
@@ -21,6 +22,8 @@ func StartWaterCalling() {
 
 	fmt.Println("water.GetDeviceCounts")
 	wc2 := &water.DeviceCountsConditional{Conditionals: []*water.DeviceCountConditional{wc1}}
+	s, _ := json.Marshal(wc2)
+	fmt.Println(string(s))
 	wr2, err := w.GetDeviceCounts(context.TODO(), wc2)
 	if err != nil {
 		fmt.Println(err)

@@ -26,9 +26,9 @@ type DeviceWaterValueResult struct {
 
 //LocationInfo 位置信息
 type LocationInfo struct {
-	S1 []float32
-	F1 []float32
-	V1 []float32
+	S3 []float32
+	P3 []float32
+	R3 []float32
 }
 
 //ConditionAndResult 查询条件和结果
