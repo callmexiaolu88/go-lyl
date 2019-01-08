@@ -20,7 +20,7 @@ var firedir, waterdir, hostname string
 func init() {
 	flag.StringVar(&firedir, "firedir", "firedevice", "fire device dir")
 	flag.StringVar(&waterdir, "waterdir", "waterdevice", "water device dir")
-	flag.StringVar(&hostname, "hostname", "10.78.115.67", "host name")
+	flag.StringVar(&hostname, "hostname", "127.0.0.1", "host name")
 
 }
 
@@ -33,7 +33,7 @@ func main() {
 	}
 	dbname := "firemock"
 	colName := "firedevice"
-	firedevices := []model.FireDevice{}
+	firedevices := []model.FileToDBDevice{}
 	for _, f := range fs {
 		if !f.IsDir() {
 			filename := filepath.Join(firedir, f.Name())
@@ -43,7 +43,7 @@ func main() {
 				continue
 			}
 			bs = bytes.TrimPrefix(bs, []byte("\xef\xbb\xbf"))
-			ts := []model.FireDevice{}
+			ts := []model.FileToDBDevice{}
 			err = json.Unmarshal(bs, &ts)
 			if err != nil {
 				fmt.Println(err)
