@@ -29,10 +29,7 @@ func StartFireCalling() {
 	// }
 
 	fmt.Println("fire.GetDeviceValue")
-	fc3 := &fire.DeviceValueConditional{
-		Building: "B10",
-		Floor:    "1.5F",
-	}
+	fc3 := &fire.DeviceValueConditional{}
 	fr3, err := f.GetDeviceValue(context.TODO(), fc3)
 	if err != nil {
 		fmt.Println(err)
